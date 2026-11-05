@@ -1,0 +1,97 @@
+<mxfile host="app.diagrams.net" agent="ChatGPT">
+  <diagram id="crm-medallion" name="CRM Medallion Architecture">
+    <mxGraphModel dx="1597" dy="1560" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1150" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;fontSize=25;fontStyle=1;align=center;verticalAlign=middle;spacing=10;" value="REAL-TIME CRM LEAD PROCESSING — MEDALLION ARCHITECTURE" vertex="1">
+          <mxGeometry height="58" width="1550" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F9E9D7;strokeColor=#B87935;strokeWidth=2;fontColor=#1F2937;fontSize=21;fontStyle=1;align=center;verticalAlign=middle;spacing=10;" value="BRONZE  |  RAW INGESTION" vertex="1">
+          <mxGeometry height="235" width="1550" x="60" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8EEF2;strokeColor=#82909D;strokeWidth=2;fontColor=#1F2937;fontSize=21;fontStyle=1;align=center;verticalAlign=middle;spacing=10;" value="SILVER  |  VALIDATION + ENRICHMENT" vertex="1">
+          <mxGeometry height="330" width="1550" x="60" y="365" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF4D2;strokeColor=#C49A27;strokeWidth=2;fontColor=#1F2937;fontSize=21;fontStyle=1;align=center;verticalAlign=middle;spacing=10;" value="GOLD  |  BUSINESS-READY LEADS + ALERTS" vertex="1">
+          <mxGeometry height="255" width="1550" x="60" y="715" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#B87935;strokeWidth=2;fontColor=#1F2937;fontSize=17;fontStyle=1;align=center;verticalAlign=middle;spacing=10;" value="Close CRM&lt;br&gt;Lead created webhook" vertex="1">
+          <mxGeometry height="85" width="260" x="105" y="195" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#B87935;strokeWidth=2;fontColor=#1F2937;fontSize=17;fontStyle=0;align=center;verticalAlign=middle;spacing=10;" value="Amazon API Gateway&lt;br&gt;POST /crm" vertex="1">
+          <mxGeometry height="85" width="245" x="440" y="195" as="geometry" />
+        </mxCell>
+        <mxCell id="n8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#B87935;strokeWidth=2;fontColor=#1F2937;fontSize=17;fontStyle=0;align=center;verticalAlign=middle;spacing=10;" value="AWS Lambda #1&lt;br&gt;Verify + parse webhook" vertex="1">
+          <mxGeometry height="85" width="260" x="803" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="n9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#B87935;strokeWidth=2;fontColor=#1F2937;fontSize=16;fontStyle=0;align=center;verticalAlign=middle;spacing=10;" value="Amazon S3 — Bronze&lt;br&gt;source/crm_event_{lead_id}.json" vertex="1">
+          <mxGeometry height="85" width="390" x="1180" y="195" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="n6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=2;fontSize=12;fontColor=#334155;dashed=0;" target="n7" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="n7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=2;fontSize=12;fontColor=#334155;dashed=0;" target="n8" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="n8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=2;fontSize=12;fontColor=#334155;dashed=0;" target="n9" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#82909D;strokeWidth=2;fontColor=#1F2937;fontSize=17;fontStyle=0;align=center;verticalAlign=middle;spacing=10;" value="Amazon SQS&lt;br&gt;600-second delay" vertex="1">
+          <mxGeometry height="80" width="260" x="1070" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="n14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#82909D;strokeWidth=2;fontColor=#1F2937;fontSize=17;fontStyle=0;align=center;verticalAlign=middle;spacing=10;" value="AWS Lambda #2&lt;br&gt;Lookup + merge + validate" vertex="1">
+          <mxGeometry height="85" width="295" x="710" y="555" as="geometry" />
+        </mxCell>
+        <mxCell id="n15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#82909D;strokeWidth=2;fontColor=#1F2937;fontSize=16;fontStyle=0;align=center;verticalAlign=middle;spacing=10;" value="Public S3 owner lookup&lt;br&gt;dea-lead-owner/{lead_id}.json" vertex="1">
+          <mxGeometry height="85" width="430" x="140" y="555" as="geometry" />
+        </mxCell>
+        <mxCell id="n16" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#82909D;strokeWidth=2;fontColor=#1F2937;fontSize=16;fontStyle=0;align=center;verticalAlign=middle;spacing=10;" value="Amazon S3 — Silver&lt;br&gt;silver/enriched_lead_{lead_id}.json" vertex="1">
+          <mxGeometry height="85" width="390" x="1110" y="555" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="n9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=2;fontSize=12;fontColor=#334155;dashed=0;" target="n13" value="enqueue after write">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="n13" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=2;fontSize=12;fontColor=#334155;dashed=0;" target="n14" value="after 10 minutes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" edge="1" parent="1" source="n15" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=2;fontSize=12;fontColor=#334155;dashed=0;" target="n14" value="lookup by lead_id">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" edge="1" parent="1" source="n14" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=2;fontSize=12;fontColor=#334155;dashed=0;" target="n16" value="validated + enriched">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n21" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#C49A27;strokeWidth=2;fontColor=#1F2937;fontSize=16;fontStyle=0;align=center;verticalAlign=middle;spacing=10;" value="Amazon S3 — Gold&lt;br&gt;gold/notification_ready/{lead_id}.json" vertex="1">
+          <mxGeometry height="90" width="425" x="150" y="795" as="geometry" />
+        </mxCell>
+        <mxCell id="n22" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#C49A27;strokeWidth=2;fontColor=#1F2937;fontSize=17;fontStyle=0;align=center;verticalAlign=middle;spacing=10;" value="Notification step&lt;br&gt;Slack webhook or email" vertex="1">
+          <mxGeometry height="90" width="350" x="680" y="860" as="geometry" />
+        </mxCell>
+        <mxCell id="n23" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#C49A27;strokeWidth=2;fontColor=#1F2937;fontSize=17;fontStyle=0;align=center;verticalAlign=middle;spacing=10;" value="Sales Team&lt;br&gt;7-field New Lead Alert" vertex="1">
+          <mxGeometry height="90" width="330" x="1135" y="795" as="geometry" />
+        </mxCell>
+        <mxCell id="e24" edge="1" parent="1" source="n16" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=2;fontSize=12;fontColor=#334155;dashed=0;" target="n21" value="publish business-ready">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e25" edge="1" parent="1" source="n21" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=2;fontSize=12;fontColor=#334155;dashed=0;" target="n22" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e26" edge="1" parent="1" source="n22" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=2;fontSize=12;fontColor=#334155;dashed=0;" target="n23" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n27" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDF4FF;strokeColor=#6885A8;strokeWidth=2;fontColor=#1F2937;fontSize=16;fontStyle=0;align=center;verticalAlign=middle;spacing=10;" value="CROSS-CUTTING: IAM least privilege  •  CloudWatch logging  •  SQS DLQ + retries  •  deduplication  •  secure secrets" vertex="1">
+          <mxGeometry height="72" width="1550" x="60" y="995" as="geometry" />
+        </mxCell>
+        <mxCell id="n28" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#FFFFFF;strokeWidth=2;fontColor=#1F2937;fontSize=13;fontStyle=0;align=center;verticalAlign=middle;spacing=10;" value="Gold is an added medallion organization layer; the PDF requires raw S3, enriched S3, and Slack/email delivery, not a separate Gold bucket." vertex="1">
+          <mxGeometry height="42" width="1550" x="60" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="_Ji6O_bRyFcYPxL2VkkE-1" edge="1" parent="1" source="n8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;innerLoopWaypoints=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;defaultLabelBackgroundColor=page;" target="n8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_Ji6O_bRyFcYPxL2VkkE-2" edge="1" parent="1" source="n9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;innerLoopWaypoints=1;defaultLabelBackgroundColor=page;" target="n9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
